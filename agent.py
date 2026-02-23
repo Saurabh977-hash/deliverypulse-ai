@@ -1,6 +1,7 @@
+import os
 from anthropic import Anthropic
 
-client = Anthropic(api_key="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")
+client = Anthropic(api_key=os.getenv("CLAUDE_API_KEY", "demo-mode"))
 
 SAMPLE_JIRA = """
 Ticket,Status,Sprint,Story Points,Blocker
@@ -33,3 +34,4 @@ def generate_delivery_report(jira_data, velocity_data):
         messages=[{"role": "user", "content": prompt}]
     )
     return response.content[0].text
+
