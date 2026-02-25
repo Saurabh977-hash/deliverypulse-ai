@@ -14,24 +14,24 @@ PROJ-105,To Do,Sprint 24,5,None
 
 SAMPLE_VELOCITY = "Sprint 20: 34pts, Sprint 21: 42pts, Sprint 22: 28pts, Sprint 23: 35pts (target)"
 
-def generate_delivery_report(jira_data, velocity_data):
+def generate_delivery_report(jira_input, velocity_input):
     prompt = f"""
-    You are DeliveryPulse AI, an agentic copilot for program executives. 
-    Generate a professional delivery status report from this Jira data: {jira_data}
-    Velocity trend: {velocity_data}
-    
-    Include:
-    - Executive summary (1 para)
-    - Risk matrix (table)
-    - Action items
-    - Velocity chart summary
-    Format as Markdown email-ready.
+    You are DeliveryPulse, an AI delivery copilot...
+    (your existing prompt text, using jira_input and velocity_input)
     """
-    
+
     response = client.messages.create(
         model="claude-3-5-sonnet-20241022",
         max_tokens=1500,
-        messages=[{"role": "user", "content": prompt}]
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt}
+                ],
+            }
+        ],
     )
+
     return response.content[0].text
 
