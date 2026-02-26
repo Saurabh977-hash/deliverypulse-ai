@@ -1,7 +1,7 @@
 import os
-from anthropic import Anthropic
+from google import genai
 
-client = Anthropic(api_key=os.getenv("CLAUDE_API_KEY", "demo-mode"))
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 SAMPLE_JIRA = """
 Ticket,Status,Sprint,Story Points,Blocker
@@ -16,22 +16,24 @@ SAMPLE_VELOCITY = "Sprint 20: 34pts, Sprint 21: 42pts, Sprint 22: 28pts, Sprint 
 
 def generate_delivery_report(jira_input, velocity_input):
     prompt = f"""
-    You are DeliveryPulse, an AI delivery copilot...
-    (your existing prompt text, using jira_input and velocity_input)
+    You are DeliveryPulse, an AI delivery copilot for IT delivery leaders.
+
+    Input Jira snapshot:
+    {jira_input or SAMPLE_JIRA}
+
+    Input velocity/risk snapshot:
+    {velocity_input or SAMPLE_VELOCITY}
+
+    Analyse trends, blockers, risks, and give a crisp executive summary,
+    plus 3–5 concrete actions.
     """
 
-    response = client.messages.create(
-        model="claude-3-5-sonnet-20241022",
-        max_tokens=1500,
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": prompt}
-                ],
-            }
-        ],
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",   # or a similar Gemini model name
+        contents=prompt,
+        generation_config={"max_output_tokens": 1500},
     )
 
-    return response.content[0].text
+    return response.text
+
 
