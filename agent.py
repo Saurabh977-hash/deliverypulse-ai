@@ -29,12 +29,13 @@ def generate_delivery_report(jira_input, velocity_input):
     """
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",   # or a similar Gemini model name
+        model="gemini-3-flash-preview",   # or a similar Gemini model name
         contents=prompt,
         max_output_tokens=1500,
     )
 
     return response.text
+
 
 
 
