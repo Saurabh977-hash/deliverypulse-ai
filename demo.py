@@ -13,4 +13,5 @@ if st.button("Generate Report", type="primary"):
         report = generate_delivery_report(jira_input, velocity_input)
         st.markdown("### 📊 Delivery Status Report")
         st.markdown(report)
-        st.success("Report generated in seconds! Add to resume: 'Built DeliveryPulse AI (live demo)'")
+        st.success("DeliveryPulse AI (live demo) - Report generated in seconds!")
+
