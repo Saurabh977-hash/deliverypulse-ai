@@ -1,4 +1,4 @@
 streamlit
 pandas
-anthropic
+google-genai
 python-dotenv
